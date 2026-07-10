@@ -1,0 +1,39 @@
+[package]
+name = "ipa-shuttle"
+version = "0.1.0"
+description = "macOS GUI app for transferring iOS apps through Apple-provided IPA downloads"
+authors = ["IPA Shuttle"]
+license = "GPL-2.0-or-later"
+edition = "2024"
+rust-version = "1.97"
+
+[lib]
+name = "ipa_shuttle_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.6.3", features = [] }
+
+[dependencies]
+chrono = { version = "0.4.42", features = ["serde"] }
+dirs = "6.0.0"
+plist = "1.8.0"
+png = "0.17.16"
+security-framework = "3.7.0"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+sha2 = "0.10.9"
+tauri = { version = "2.11.5", features = ["protocol-asset"] }
+thiserror = "2.0.17"
+uuid = { version = "1.18.1", features = ["v4", "serde"] }
+zeroize = "1.9.0"
+
+[dev-dependencies]
+tempfile = "3.23.0"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

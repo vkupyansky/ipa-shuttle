@@ -1,0 +1,65 @@
+package appstore
+
+import (
+	"github.com/majd/ipatool/v2/pkg/http"
+	"github.com/majd/ipatool/v2/pkg/keychain"
+	"github.com/majd/ipatool/v2/pkg/util/machine"
+	"github.com/majd/ipatool/v2/pkg/util/operatingsystem"
+)
+
+type AppStore interface {
+	// Login authenticates with the App Store.
+	Login(input LoginInput) (LoginOutput, error)
+	// AccountInfo returns the information of the authenticated account.
+	AccountInfo() (AccountInfoOutput, error)
+	// Lookup looks apps up based on the specified bundle identifier.
+	Lookup(input LookupInput) (LookupOutput, error)
+	// Purchase acquires a license for the desired app.
+	// Note: only free apps are supported.
+	Purchase(input PurchaseInput) error
+	// Download downloads the IPA package from the App Store to the desired location.
+	Download(input DownloadInput) (DownloadOutput, error)
+	// ReplicateSinf replicates the sinf for the IPA package.
+	ReplicateSinf(input ReplicateSinfInput) error
+	// Bag fetches the bag which contains endpoint definitions.
+	Bag(input BagInput) (BagOutput, error)
+}
+
+type appstore struct {
+	keychain       keychain.Keychain
+	loginClient    http.Client[loginResult]
+	searchClient   http.Client[searchResult]
+	purchaseClient http.Client[purchaseResult]
+	downloadClient http.Client[downloadResult]
+	platformClient http.Client[platformVersionLookupResult]
+	bagClient      http.Client[bagResult]
+	httpClient     http.Client[interface{}]
+	machine        machine.Machine
+	os             operatingsystem.OperatingSystem
+}
+
+type Args struct {
+	Keychain        keychain.Keychain
+	CookieJar       http.CookieJar
+	OperatingSystem operatingsystem.OperatingSystem
+	Machine         machine.Machine
+}
+
+func NewAppStore(args Args) AppStore {
+	clientArgs := http.Args{
+		CookieJar: args.CookieJar,
+	}
+
+	return &appstore{
+		keychain:       args.Keychain,
+		loginClient:    http.NewClient[loginResult](clientArgs),
+		searchClient:   http.NewClient[searchResult](clientArgs),
+		purchaseClient: http.NewClient[purchaseResult](clientArgs),
+		downloadClient: http.NewClient[downloadResult](clientArgs),
+		platformClient: http.NewClient[platformVersionLookupResult](clientArgs),
+		bagClient:      http.NewClient[bagResult](clientArgs),
+		httpClient:     http.NewClient[interface{}](clientArgs),
+		machine:        args.Machine,
+		os:             args.OperatingSystem,
+	}
+}
