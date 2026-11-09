@@ -1,26 +1,27 @@
 ---
-name: Bug report
-about: Report a production GUI bug
+name: Ошибка / Bug report
+about: Ошибка в интерфейсе приложения / Report an application bug
 title: "[Bug] "
 labels: bug
 assignees: ""
 ---
 
-## Summary
+## Что произошло
 
-## Steps to Reproduce
+Можно писать по-русски или по-английски. English reports are welcome.
 
-## Expected Behavior
+## Как повторить
 
-## Actual Behavior
+## Ожидаемый результат
 
-## Environment
+## Фактический результат
 
-- macOS version:
-- IPA Shuttle version/commit:
-- iPhone model/iOS version, if relevant:
+## Окружение
 
-## Notes
+- Версия macOS:
+- Версия или commit IPA Shuttle:
+- Модель iPhone и версия iOS, если относятся к ошибке:
 
-Do not include Apple ID passwords, 2FA codes, auth session JSON, cookies, IPA
-files, raw logs, email addresses, or device identifiers such as UDIDs.
+## Дополнительные сведения
+
+Не прикладывайте пароли Apple ID, коды 2FA, auth session JSON, cookies, IPA, необработанные журналы, email и идентификаторы устройств, включая UDID. Перед отправкой проверьте диагностические файлы и снимки экрана.

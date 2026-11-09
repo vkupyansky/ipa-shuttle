@@ -1,6 +1,10 @@
-## Summary
+## Что изменилось
 
-## Checks
+Опишите задачу и результат для пользователя.
+
+## Проверки
+
+Рабочие каталоги и полный порядок команд: [тестирование](https://github.com/vkupyansky/ipa-shuttle/blob/main/docs/testing.md).
 
 - [ ] `pnpm lint`
 - [ ] `pnpm typecheck`
@@ -15,12 +19,9 @@
 - [ ] `cargo clippy --release -- -D warnings`
 - [ ] `cargo machete`
 - [ ] `cargo audit`
-- [ ] `gofmt`, `go test ./...`, `go vet ./...`, and `govulncheck`
+- [ ] `gofmt`, `go test ./...`, `go vet ./...` и `govulncheck`
 
-## Security
+## Данные и границы проекта
 
-- [ ] No Apple ID passwords, 2FA codes, auth tokens, cookies, IPA files, logs,
-      manifests, icon caches, certificates, or notarization credentials are
-      committed.
-- [ ] No jailbreak, DRM bypass, cracking, patching, re-signing, IPA sharing, or
-      IPA extraction from installed iPhone apps is added.
+- [ ] В коммите нет паролей Apple ID, кодов 2FA, auth tokens, cookies, IPA, журналов, manifests, кэшей иконок, сертификатов и credentials нотарификации.
+- [ ] Не добавлены jailbreak, снятие DRM, взлом, патчи, переподпись, распространение IPA или извлечение IPA из установленных приложений iPhone.

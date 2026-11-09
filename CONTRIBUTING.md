@@ -1,24 +1,20 @@
-# Contributing
+# Участие в разработке
 
-Keep IPA Shuttle macOS-only, GUI-driven, and scoped to Apple-provided apps from
-the user's own account. Do not add terminal UX, jailbreak, DRM bypass,
-cracking, patching, re-signing, IPA extraction, or IPA sharing.
+Сохраняйте IPA Shuttle приложением только для macOS с графическим интерфейсом и работой с приложениями, которые Apple предоставляет собственному аккаунту пользователя. Не добавляйте терминальный интерфейс, jailbreak, снятие DRM, взлом, патчи, переподпись, извлечение IPA или распространение приложений.
 
-Preserve these boundaries:
+## Границы изменений
 
-- Frontend calls only typed Tauri commands.
-- Commands stay thin; testable behavior belongs in Rust core/engine modules.
-- Sidecars never own Keychain state.
-- Passwords, 2FA, tokens, cookies, session JSON, private device identifiers,
-  IPA files, logs, caches, manifests, certificates, and notarization secrets
-  must not enter commits, fixtures, screenshots, or diagnostics.
-- Every user-facing string has matching EN/RU catalog entries.
-- Add an abstraction only when it removes actual duplication.
+- Frontend вызывает только типизированные команды Tauri.
+- Команды остаются тонкими; проверяемое поведение находится в Rust core/engine.
+- Встроенные движки не владеют состоянием Keychain.
+- Пароли, 2FA, токены, cookies, session JSON, частные идентификаторы устройств, IPA, журналы, кэши, manifests, сертификаты и секреты нотарификации не попадают в коммиты, fixtures, скриншоты и диагностику.
+- Каждому пользовательскому тексту соответствуют записи в обоих каталогах EN/RU.
+- Новая абстракция добавляется только для устранения реального дублирования.
 
-Run the complete gate in [TESTING.md](TESTING.md), including `pnpm knip`,
-`cargo machete`, Go formatting/tests/vet, and the release Rust checks. Use the
-built `.app`, not `tauri dev`, for GUI acceptance. Update architecture,
-security, release, testing, and third-party notices when their facts change.
+## Проверки
 
-The current bundled distribution is `GPL-2.0-or-later`; preserve all upstream
-license files and notices.
+Выполните полный набор из [тестирования](docs/testing.md), включая `pnpm knip`, `cargo machete`, Go formatting/tests/vet и release-проверки Rust. Приёмка интерфейса использует собранный `.app`, а не `tauri dev`.
+
+При изменении фактов обновляйте [архитектуру](docs/architecture.md), [безопасность](SECURITY.md), [подготовку выпуска](docs/release.md), [тестирование](docs/testing.md) и сторонние notices.
+
+Комплект со встроенными движками имеет лицензию GPL-2.0-or-later. Сохраняйте все исходные лицензии и notices сторонних компонентов.

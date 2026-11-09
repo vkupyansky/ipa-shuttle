@@ -1,16 +1,17 @@
 ---
-name: Feature request
-about: Suggest a safe GUI feature
+name: Предложение / Feature request
+about: Улучшение графического интерфейса / Suggest a GUI improvement
 title: "[Feature] "
 labels: enhancement
 assignees: ""
 ---
 
-## Problem
+## Какую задачу нужно решить
 
-## Proposed GUI Behavior
+Можно писать по-русски или по-английски. English requests are welcome.
 
-## Constraints
+## Предлагаемое поведение интерфейса
 
-IPA Shuttle will not accept jailbreak, DRM bypass, cracking, patching,
-re-signing, IPA sharing, or extraction of IPA files from installed iPhone apps.
+## Ограничения
+
+Проект не поддерживает jailbreak, снятие DRM, взлом, патчи, переподпись, распространение IPA или извлечение IPA из установленных приложений iPhone.

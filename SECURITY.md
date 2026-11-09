@@ -1,50 +1,29 @@
-# Security Policy
+# Безопасность
 
-Report vulnerabilities privately to the maintainer before public disclosure.
-Include a concise impact statement, reproduction steps, and affected version.
-Never attach real passwords, 2FA codes, session JSON, cookies, IPA files,
-Keychain exports, signing keys, or unreviewed diagnostics.
+До публичного раскрытия сообщите об уязвимости сопровождающему приватно. Укажите последствия, воспроизведение и затронутую версию. Не прикладывайте настоящие пароли, коды 2FA, session JSON, cookies, IPA, экспорт Keychain, ключи подписи и непроверенные диагностические файлы.
 
-## Security Invariants
+## Инварианты
 
-- Apple ID passwords and 2FA codes exist only in memory and are sent by stdin.
-- Session material exists only in Rust memory, a short-lived 0600 IPC file, or
-  one app-owned Keychain item: `com.ipashuttle.apple-session.v2/active`.
-- Sidecars never call `SecItem*`; the Go engine uses only the supplied session
-  file or memory. Its Security.framework symbols are limited to TLS trust.
-- Startup, navigation, device refresh, scan, and download never read Keychain.
-  `Use saved session` is the single explicit read.
-- Logs redact credentials, tokens, cookies, session material, sensitive device
-  identifiers, and the user's absolute home path before diagnostics export.
-- Processes use allow-listed bundled regular files, argv arrays, a sanitized
-  environment, bounded timeouts, and kill/wait on timeout. Auth children are
-  also killed on cancel or drop.
-- Manifest updates are locked and atomic. IPA access is canonicalized to the
-  local Library; symlinks, outside paths, empty files, and non-ZIP files fail.
-- Tauri grants only `core:default`; local asset access is scoped to Icons, and
-  CSP blocks remote content, objects, frames, forms, and base URL changes.
+- Пароли Apple ID и коды 2FA находятся только в памяти и передаются через stdin.
+- Сессия существует только в памяти Rust, краткоживущем IPC-файле `0600` или одном принадлежащем приложению элементе Keychain: `com.ipashuttle.apple-session.v2/active`.
+- Встроенные движки не вызывают `SecItem*`. Go-движок использует только переданную сессию в файле или памяти; его символы Security.framework ограничены проверкой доверия TLS.
+- Запуск, навигация, обновление устройства, сканирование и скачивание не читают Keychain. Use saved session является единственным явным чтением.
+- До выгрузки диагностики журналы очищаются от credentials, токенов, cookies, сессий, чувствительных идентификаторов устройств и абсолютного домашнего пути пользователя.
+- Процессы запускаются из разрешённых обычных файлов с массивом argv, очищенным окружением, ограниченными таймаутами и kill/wait. Процесс входа также завершается при отмене или освобождении владельца.
+- Manifest изменяется под блокировкой и атомарно. Доступ к IPA ограничен локальной Library: символьные ссылки, выход за каталог, пустые файлы и файлы без ZIP-сигнатуры отклоняются.
+- Tauri разрешает только `core:default`. Локальные assets ограничены Icons, CSP блокирует удалённое содержимое, объекты, фреймы, формы и изменение base URL.
 
-## Audit Snapshot (2026-07-10)
+## Снимок аудитов от 10 июля 2026 года
 
-The pre-publication audit restricted diagnostics paths, added private file
-modes and atomic storage, consolidated process execution, and regenerated
-current Go test mocks. `pnpm audit` reports no known npm vulnerabilities. The
-Go engine is rebuilt with Go 1.26.5 and `govulncheck` reports no reachable
-vulnerabilities. `cargo audit` reports no vulnerability failures; it reports
-17 maintenance warnings, including Linux-only GTK3 crates and one GTK `glib`
-advisory outside the Apple Silicon graph. Active Tauri `urlpattern/unic-*`
-maintenance warnings remain upstream risk. Rerun all audits for every release.
-Third-party licenses are summarized in `THIRD_PARTY_NOTICES.md`.
+В том проходе `pnpm audit` не обнаружил известных npm-уязвимостей. Go-движок пересобран Go 1.26.5; `govulncheck` не обнаружил достижимых уязвимостей. `cargo audit` завершился без vulnerability failures, но сообщил 17 maintenance warnings, включая Linux-only GTK3 crates и одно GTK `glib` advisory вне графа Apple Silicon. Maintenance warnings Tauri `urlpattern/unic-*` остаются upstream-риском.
 
-Residual release risks:
+Аудиты повторяются для каждого выпуска по [инструкции](docs/testing.md). Лицензии сторонних компонентов перечислены в [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-- Ad-hoc signatures do not provide stable Keychain ACL identity; use a stable
-  Developer ID for distribution or keep sessions memory-only.
-- Download/install jobs are bounded but do not expose a user cancellation
-  control in the current MVP.
-- Apple's availability and private App Store behavior can change independently.
-- A full real-device auth, download, delete/re-download, and install E2E is
-  required before any build is described as production-ready.
+## Ограничения выпуска
 
-Jailbreak, DRM bypass, cracking, patching, re-signing, IPA sharing, and IPA
-extraction from installed iPhone apps are out of scope.
+- Ad-hoc подпись не даёт постоянной Keychain ACL identity. Для распространения используйте постоянный Developer ID либо оставляйте сессии только в памяти.
+- Скачивания и установка ограничены по времени, но в текущем MVP не имеют пользовательской кнопки отмены.
+- Доступность приложений Apple и частный протокол App Store могут меняться независимо.
+- До заявления о готовности требуется полный сценарий на реальном устройстве: вход, скачивание, удаление/повторное скачивание и установка в собранном приложении.
+
+Jailbreak, снятие DRM, взлом, патчи, переподпись, распространение IPA и извлечение IPA из установленных приложений не входят в назначение проекта.
