@@ -1,45 +1,47 @@
+[![Русский](https://img.shields.io/badge/%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-181717?style=for-the-badge)](README.ru.md)
+
 # IPA Shuttle
 
-Приложение для macOS: просматривает установленные на подключённом iPhone приложения, скачивает доступные вашему Apple ID файлы IPA и устанавливает локальные IPA на другой iPhone.
+A macOS application that scans user-installed apps on a connected iPhone, downloads Apple-provided IPA files for your own Apple ID, and installs local IPA files on another iPhone.
 
-[English](README.en.md) · **[Скачать DMG v0.1.0 для Apple Silicon](https://github.com/vkupyansky/ipa-shuttle/releases/download/v0.1.0/IPA_Shuttle_0.1.0_aarch64.dmg)** · [Описание выпуска и SHA256SUMS](https://github.com/vkupyansky/ipa-shuttle/releases/tag/v0.1.0)
+**[Download v0.1.0 DMG for Apple Silicon](https://github.com/vkupyansky/ipa-shuttle/releases/download/v0.1.0/IPA_Shuttle_0.1.0_aarch64.dmg)** · [Release notes and SHA256SUMS](https://github.com/vkupyansky/ipa-shuttle/releases/tag/v0.1.0)
 
-## Возможности
+## Features
 
-- Список пользовательских приложений с именами и версиями, поиск и сортировка.
-- Отдельная загрузка размеров данных по запросу: она не задерживает первоначальное сканирование.
-- Вход в Apple ID с двухфакторной проверкой и локальная библиотека IPA.
-- Установка IPA на целевой iPhone, общий журнал действий и интерфейс на русском/английском.
+- User-installed app names and versions, search and sorting.
+- A separate app-data size request that does not delay the initial scan.
+- Apple ID sign-in with two-factor authentication and a local IPA library.
+- Installation on a target iPhone, a shared Activity Log, and English/Russian UI.
 
-### Приложения и IPA
+### Apps & IPA
 
-![Список приложений подключённого iPhone](docs/images/apps-list.png)
+![The connected iPhone's scanned apps](docs/images/apps-list.png)
 
-### Установка и журнал действий
+### Install and Activity Log
 
-![Локальная библиотека IPA и журнал действий](docs/images/install-library.png)
+![The local IPA library and Activity Log](docs/images/install-library.png)
 
-## Установка и запуск
+## Install and run
 
-Нужны macOS 13 или новее и Mac с Apple Silicon. Готовый выпуск и встроенные движки собраны только для arm64.
+Requires macOS 13 or newer and an Apple Silicon Mac. The release and bundled engines are arm64 only.
 
-1. Скачайте DMG выше, откройте его и перенесите IPA Shuttle в Applications.
-2. Запустите приложение. Сборка v0.1.0 подписана локальной ad-hoc подписью и не нотарифицирована. Если macOS блокирует запуск, порядок ручного подтверждения описан в [инструкции Apple](https://support.apple.com/en-sg/102445).
-3. Подключите и разблокируйте iPhone, подтвердите доверие этому компьютеру на устройстве.
+1. Download the DMG above, open it and drag IPA Shuttle to Applications.
+2. Launch the app. The v0.1.0 build is ad-hoc signed and not notarized. If macOS blocks it, see [Apple's instructions](https://support.apple.com/en-sg/102445) for the manual confirmation flow.
+3. Connect and unlock the iPhone, then confirm that it trusts this computer.
 
-## Использование
+## Usage
 
-1. Нажмите **Сканировать приложения**. Список появится без ожидания размеров данных; при необходимости отдельно нажмите **Загрузить размеры данных**.
-2. Войдите в свой Apple ID и подтвердите двухфакторный вход. Выберите доступные аккаунту приложения и скачайте IPA в локальную библиотеку.
-3. Подключите целевой iPhone, перейдите к установке и выберите локальный IPA.
+1. Click **Scan apps**. The list appears before app-data sizes; use **Load data sizes** separately when needed.
+2. Sign in with your Apple ID and complete 2FA. Select apps available to that account and download their IPA files to the local library.
+3. Connect the target iPhone, open Install and choose a local IPA.
 
-Пароль и коды 2FA остаются в памяти. По желанию вход сохраняется в отдельном элементе Keychain приложения; кнопка **Использовать сохранённую сессию** читает его один раз. Фоновая проверка, сканирование и загрузки Keychain не читают.
+Passwords and 2FA codes stay in memory. You may remember a session in one app-owned Keychain item; **Use saved session** reads it once. Background checks, scans and downloads never read Keychain.
 
-IPA хранятся в `~/Library/Application Support/IPA Shuttle/Library/`. Удаление IPA в интерфейсе убирает только файл и его запись из библиотеки, не приложение на iPhone. Журналы находятся в `~/Library/Logs/IPA Shuttle/`, хранятся 7 дней и ротируются по 5 МБ с тремя архивами; интерфейс показывает до 200 событий. Очистка журнала удаляет текущий файл и архивы. Остальные пути описаны в [архитектуре](docs/architecture.md#данные).
+IPA files live in `~/Library/Application Support/IPA Shuttle/Library/`. Deleting an IPA removes only its file and library entry, never an app from the iPhone. Logs live in `~/Library/Logs/IPA Shuttle/`, are retained for 7 days and rotate at 5 MB with 3 archives; the GUI shows at most 200 events. Clear Logs removes the current file and archives. Other paths are listed in the [architecture guide](docs/architecture.md#данные).
 
-## Проверки
+## Checks
 
-Для разработки нужны Xcode Command Line Tools, Node.js 24 LTS, pnpm 11, Rust stable, Go 1.26 и Tauri CLI 2. Движки заранее готовятся в `src-tauri/resources/bin/`; точные зависимости находятся в manifests и lock-файлах.
+Development requires Xcode Command Line Tools, Node.js 24 LTS, pnpm 11, Rust stable, Go 1.26 and Tauri CLI 2. Bundled engines must already be prepared under `src-tauri/resources/bin/`; manifests and lockfiles record exact dependencies.
 
 ```bash
 pnpm install --frozen-lockfile
@@ -49,22 +51,24 @@ pnpm test
 pnpm build
 ```
 
-Полный набор Rust/Go/coverage/audit-проверок и сценарий на устройствах приведены в [тестировании](docs/testing.md). Сборка DMG выполняется отдельно командой `pnpm build:dmg`; подпись, нотарификация и пути артефактов описаны в [подготовке выпуска](docs/release.md).
+The complete Rust/Go/coverage/audit gate and real-device checklist are in [testing](docs/testing.md). Build a DMG separately with `pnpm build:dmg`; signing, notarization and artifact paths are covered in the [release guide](docs/release.md).
 
-## Ограничения
+## Limitations
 
-- v0.1.0 является предварительным выпуском.
-- Apple должна предоставлять приложение вашему Apple ID; целевому iPhone может потребоваться тот же аккаунт.
-- Сохранённые сессии в локально подписанной сборке экспериментальны; вход только в памяти остаётся вариантом по умолчанию.
-- Текущая сборка не нотарифицирована. Для распространения с устойчивой Keychain identity нужны Developer ID и нотарификация Apple.
-- Это независимый проект, не связанный с Apple. Он не извлекает IPA из установленных приложений, не снимает DRM, не выполняет jailbreak, взлом, переподпись или распространение чужих приложений.
+- v0.1.0 is a pre-release.
+- Apple must still provide the app for your Apple ID; the target iPhone may require the same account.
+- Remembered sessions are experimental in a locally signed build; memory-only sign-in remains the default.
+- The current build is not notarized. Stable Keychain identity for distribution requires Developer ID signing and Apple notarization.
+- IPA Shuttle is independent of Apple. It does not extract IPA files from installed apps, bypass DRM, jailbreak, crack, patch, re-sign or share apps.
 
-## Документация
+## Documentation
 
-- [Архитектура и хранение данных](docs/architecture.md).
-- [Тестирование](docs/testing.md), [выпуск](docs/release.md) и [оформление DMG](docs/dmg-artwork.md).
-- [Безопасность](SECURITY.md) и [участие в разработке](CONTRIBUTING.md).
+Technical guides are maintained in Russian:
 
-## Лицензия
+- [Architecture and storage](docs/architecture.md).
+- [Testing](docs/testing.md), [releases](docs/release.md) and [DMG artwork](docs/dmg-artwork.md).
+- [Security](SECURITY.md) and [contributing](CONTRIBUTING.md).
 
-Комплект со встроенными движками распространяется по [GPL-2.0-or-later](LICENSE). Лицензии компонентов и исходный MIT-текст движка ipatool сохранены; подробности в [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). IPA, учётные данные, кэши, журналы и секреты подписи в репозиторий не входят.
+## License
+
+The bundled-engine distribution is [GPL-2.0-or-later](LICENSE). Component licences and the ipatool engine's original MIT text are preserved; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). IPA files, credentials, caches, logs and signing secrets do not belong in the repository.
